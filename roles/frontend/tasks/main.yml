@@ -1,6 +1,4 @@
-- name: Frontend play book
-  hosts: all
-  tasks:
+
     - name: Install nginx 1.24
       ansible.builtin.dnf:
         name: nginx
