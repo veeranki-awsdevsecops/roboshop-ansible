@@ -1,10 +1,56 @@
+#  dnf module disable nginx -y
+#    dnf module enable nginx:1.24 -y
+#    dnf install nginx -y
+#    #Create nginx reverse proxy configuration.
+#    cp nginx.conf /etc/nginx/nginx.conf
+#    rm -rf /usr/share/nginx/html/*
+#    curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+#    cd /usr/share/nginx/html
+#    unzip /tmp/frontend.zip
+#
+#    systemctl enable nginx
+#    systemctl start nginx
 
-    - name: Install nginx 1.24
-      ansible.builtin.dnf:
-        name: nginx
-        state: latest
-    - name: copy nginx
-      ansible.builtin.copy:
-        src: nginx.conf
-        dest: /etc/nginx/nginx.conf
-        mode: "0644"
+- name: Disable Nginx module
+  ansible.builtin.shell:
+    cmd: dnf module disable nginx -y
+
+- name: Enable Nginx module
+  ansible.builtin.shell:
+    cmd: dnf module enable nginx:1.24 -y
+
+- name: Install Nginx
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
+
+- name: Copy Proxy configuration
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Remove nginx static files
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/*
+    state: absent
+
+- name: create nginx directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
+
+- name: Download and Unarchive the frontendzip
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: Enable the systemd
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: started
+    enabled: true
+
+
+
+
