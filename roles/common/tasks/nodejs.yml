@@ -8,7 +8,7 @@
 #SYSTEMD
 
 - name: Disable default Nodejs and enable nodejs 20
-  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs -y
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
 
 - name: Install Nodejs
   ansible.builtin.dnf:
