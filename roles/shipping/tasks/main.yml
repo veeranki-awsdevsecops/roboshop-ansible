@@ -1,0 +1,19 @@
+#source common.sh
+#component=shipping
+#MAVEN
+#
+#dnf install mysql -y
+#  #RoboShop@1
+#
+#for file in schema app-user master-data ; do
+#
+#mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/$file.sql
+#
+#done
+##mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/app-user.sql
+##mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/master-data.sql
+
+- name: Load Maven
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: maven
