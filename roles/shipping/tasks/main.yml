@@ -17,3 +17,17 @@
   ansible.builtin.import_role:
     name: common
     tasks_from: maven
+
+- name: Install MySQL Client (not server)
+  ansible.builtin.dnf:
+    name: mysql
+    state: installed
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.in -uroot -pRoboShop@1 < /app/db/schema.sql
+
+- name: Load app-user
+  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.in -uroot -pRoboShop@1 < /app/db/app-user.sql
+
+- name: Load master-data
+  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.in -uroot -pRoboShop@1 < /app/db/master-data.sql
