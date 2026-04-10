@@ -2,3 +2,13 @@
   ansible.builtin.import_role:
     name: common
     tasks_from: nodejs
+
+- name: Copy MongoDB repo file
+  ansible.builtin.copy:
+    src: mango.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Load schema
+  ansible.builtin.shell: mongosh --host mongodb-dev.veerankitek.in </app/db/master-data.js
+
+
