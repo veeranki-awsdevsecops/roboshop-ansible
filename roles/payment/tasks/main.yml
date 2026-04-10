@@ -3,7 +3,7 @@
 #    PYTHON
 
 
-- name: Load NodeJS
+- name: Load python
   ansible.builtin.import_role:
     name: common
-    tasks_from: nodejs
+    tasks_from: python
