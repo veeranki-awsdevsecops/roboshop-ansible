@@ -8,6 +8,11 @@
     src: mango.repo
     dest: /etc/yum.repos.d/mongo.repo
 
+- name: Install Mongo Shell
+  ansible.builtin.dnf:
+    state: installed
+    name: mongodb-mongosh
+
 - name: Load schema
   ansible.builtin.shell: mongosh --host mongodb-dev.veerankitek.online </app/db/master-data.js
 
