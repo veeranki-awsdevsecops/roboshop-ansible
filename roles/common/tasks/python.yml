@@ -1,0 +1,11 @@
+#dnf install python3 gcc python3-devel -y
+#useradd roboshop
+#
+#APP_PREREQ
+#pip3 install -r requirements.txt
+#
+#SYSTEMD
+
+- name: Install python3 gcc python3-devel
+  ansible.builtin.dnf:
+    name:
