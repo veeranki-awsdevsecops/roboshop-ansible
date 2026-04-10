@@ -8,14 +8,14 @@
     path: /app
     state: absent
 
-- name: create nginx directory
+- name: create app directory
   ansible.builtin.file:
     path: /app
     state: directory
 
-- name: Download and Unarchive the each roboshop module
+- name: Download and unarchive the each roboshop module
   ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/${component}-v3.zip
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip
     dest: /app
     remote_src: yes
 
