@@ -17,7 +17,7 @@
 - name: Load App-Prereq
   ansible.builtin.import_role:
     name: common
-    task_from: app-prereq
+    tasks_from: app-prereq
 
 - name: Download Dependencies
   ansible.builtin.shell: pip3 install -r requirements.txt
