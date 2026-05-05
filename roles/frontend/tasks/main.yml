@@ -12,7 +12,7 @@
     state: present
 
 - name: Copy Proxy configuration
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: nginx.conf
     dest: /etc/nginx/nginx.conf
 
