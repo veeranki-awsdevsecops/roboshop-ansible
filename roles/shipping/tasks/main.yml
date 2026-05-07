@@ -1,41 +1,45 @@
-#source common.sh
-#component=shipping
-#MAVEN
+##source common.sh
+##component=shipping
+##MAVEN
+##
+##dnf install mysql -y
+##  #RoboShop@1
+##
+##for file in schema app-user master-data ; do
+##
+##mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/$file.sql
+##
+##done
+###mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/app-user.sql
+###mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/master-data.sql
 #
-#dnf install mysql -y
-#  #RoboShop@1
+#- name: Load Maven
+#  ansible.builtin.import_role:
+#    name: common
+#    tasks_from: maven
 #
-#for file in schema app-user master-data ; do
+#- name: Install MySQL Client (not server)
+#  ansible.builtin.dnf:
+#    name: mysql
+#    state: installed
 #
-#mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/$file.sql
+##- name: Load Schema
+##  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/schema.sql
+##
+##- name: Load app-user
+##  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/app-user.sql
+##
+##- name: Load master-data
+##  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/master-data.sql
 #
-#done
-##mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/app-user.sql
-##mysql -h mysql-dev.veerankitek.in -uroot -p$1 < /app/db/master-data.sql
-
-- name: Load Maven
+#- name: Load Schema
+#  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -u{{ lookup('community.hashi_vault.hashi_vault', 'secret=roboshop-{{env}}/data/shipping:DB_USER token={{ token }} url=http://vault-internal.veerankitek.online:8200') }} -p{{ lookup('community.hashi_vault.hashi_vault', 'secret=roboshop-{{env}}/data/shipping:DB_PASS token={{ token }} url=http://vault-internal.veerankitek.online:8200') }} < /app/db/{{ item }}.sql
+#  loop:
+#    - schema
+#    - app-user
+#    - master-data
+#
+- name: Load Docker
   ansible.builtin.import_role:
     name: common
-    tasks_from: maven
-
-- name: Install MySQL Client (not server)
-  ansible.builtin.dnf:
-    name: mysql
-    state: installed
-
-#- name: Load Schema
-#  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/schema.sql
-#
-#- name: Load app-user
-#  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/app-user.sql
-#
-#- name: Load master-data
-#  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -uroot -pRoboShop@1 < /app/db/master-data.sql
-
-- name: Load Schema
-  ansible.builtin.shell: mysql -h mysql-dev.veerankitek.online -u{{ lookup('community.hashi_vault.hashi_vault', 'secret=roboshop-{{env}}/data/shipping:DB_USER token={{ token }} url=http://vault-internal.veerankitek.online:8200') }} -p{{ lookup('community.hashi_vault.hashi_vault', 'secret=roboshop-{{env}}/data/shipping:DB_PASS token={{ token }} url=http://vault-internal.veerankitek.online:8200') }} < /app/db/{{ item }}.sql
-  loop:
-    - schema
-    - app-user
-    - master-data
-
+    tasks_from: docker
