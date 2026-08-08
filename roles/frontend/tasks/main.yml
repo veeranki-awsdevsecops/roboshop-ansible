@@ -43,7 +43,7 @@
 #
 #
 #
-#
+
 - name: Load Docker
   ansible.builtin.import_role:
     name: common
